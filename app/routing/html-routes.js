@@ -1,33 +1,27 @@
-// *********************************************************************************
-// html-routes.js - this file offers a set of routes for sending users to the various html pages
-// *********************************************************************************
+// ===============================================================================
+// DEPENDENCIES
+// We need to include the path package to get the correct file path for our html
+// ===============================================================================
+var path = require('path');
 
-// Dependencies
-// =============================================================
-var path = require("path");
+// ===============================================================================
+// ROUTING
+// ===============================================================================
 
+module.exports = function(app){
 
-// Routes
-// =============================================================
-module.exports = function(app) {
+	// HTML GET Requests
+	// Below code handles when users "visit" a page. 
+	// In each of the below cases the user is shown an HTML page of content
+	// ---------------------------------------------------------------------------
 
-  // Each of the below routes just handles the HTML page that the user gets sent to.
+	app.get('/survey', function(req, res){
+		res.sendFile(path.join(__dirname + '/../public/survey.html'));
+	});
 
-  // index route loads view.html
-  app.get("/", function(req, res) {
-    res.sendFile(path.join(__dirname + "/../public/view.html"));
-  });
+	// If no matching route is found default to home
+	app.use(function(req, res){
+		res.sendFile(path.join(__dirname + '/../public/home.html'));
+	});
 
-  // add route loads the add.html page,
-  // where users can enter new characters to the db
-  app.get("/add", function(req, res) {
-    res.sendFile(path.join(__dirname + "/../public/add.html"));
-  });
-
-  // all route loads the all.html page,
-  // where all characters in the db are displayed
-  app.get("/all", function(req, res) {
-    res.sendFile(path.join(__dirname + "/../public/all.html"));
-  });
-
-};
+}
